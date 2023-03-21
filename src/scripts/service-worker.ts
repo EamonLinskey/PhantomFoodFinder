@@ -4,7 +4,9 @@ const apiKey = '';
 
 const getRestaurantName = async (cordinate: Cordinate): Promise<string[] | null> => {
     cordinate.latitude, cordinate.longitude
-    const url = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?fields=name&location=${cordinate.latitude},${cordinate.longitude}&radius=300&type=restaurant&key=${apiKey}`;
+    //const url = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?fields=name&location=${cordinate.latitude},${cordinate.longitude}&radius=50&type=restaurant|bakery|bar|cafe|convenience_store|establishment|liquor_store|meal_delivery|meal_takeaway|supermarket&key=${apiKey}`;
+    const url = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?fields=name&location=${cordinate.latitude},${cordinate.longitude}&radius=30&key=${apiKey}`;
+    
     const response = await fetch(url);
     console.log(response)
     const json = await response.json();

@@ -19,6 +19,9 @@
         "css": ["src/styles/PFF-tooltip.css"],
         "matches": [
           "https://www.grubhub.com/restaurant/*",
+          "https://www.doordash.com/store/*",
+          "https://postmates.com/store/*",
+          "https://www.ubereats.com/store/*",
           "https://www.google.com/"
         ]
       }
