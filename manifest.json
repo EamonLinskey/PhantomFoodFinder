@@ -1,0 +1,43 @@
+{
+    "manifest_version": 3,
+    "name": "Phantom Food Finder",
+    "description": "Identify Ghost Kitchens",
+    "version": "1.0",
+    "action": {
+      "default_popup": "test.html",
+      "default_icon": "src/images/PhantomFoodFinderIcon1.png"
+    },
+    "icons": {
+      "16": "src/images/PhantomFoodFinderIcon1.png",
+      "32": "src/images/PhantomFoodFinderIcon1.png",
+      "48": "src/images/PhantomFoodFinderIcon1.png",
+      "128": "src/images/PhantomFoodFinderIcon1.png"
+    },
+    "content_scripts": [
+      {
+        "js": ["dist/bundle.js"],
+        "css": ["src/styles/PFF-tooltip.css"],
+        "matches": [
+          "https://www.grubhub.com/restaurant/*",
+          "https://www.google.com/"
+        ]
+      }
+    ],
+    "background": {
+      "service_worker": "dist/service-worker.js"
+    },
+    "permissions": [
+      "activeTab",
+      "scripting",
+      "https://maps.googleapis.com/*",
+      "nativeMessaging"
+    ],
+    "host_permissions": [
+      "activeTab",
+      "scripting",
+      "https://maps.googleapis.com/*",
+      "https://*/",
+      "https://*/*",
+      "nativeMessaging"
+    ]
+  }

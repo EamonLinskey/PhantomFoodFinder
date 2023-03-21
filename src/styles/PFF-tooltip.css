@@ -1,0 +1,103 @@
+
+.PFF-tooltip {
+    position: relative;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    padding-left: 4px;
+}
+  
+/* Tooltip text */
+.PFF-tooltip .PFF-tooltip-text {
+    visibility: hidden;
+    background-color: #000;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    border-radius: 6px;
+
+    /* Position the tooltip text */
+    position: absolute;
+    z-index: 1;
+    top: 50%; /* Center the tooltip vertically */
+    transform: translateY(-50%); /* Move the tooltip up by 50% of its own height */
+    left: 100%;
+
+    /* Fade in tooltip */
+    opacity: 0;
+    transition: opacity 0.3s;
+
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1rem;
+
+    cursor: auto;
+} 
+
+.PFF-tooltip .PFF-tooltip-text ul{
+    list-style-type: none;
+    text-align: start;
+    margin-top: 8px;
+    margin-left: 0;
+	padding-left: 0;
+    width: max-content;
+}
+
+.PFF-tooltip .PFF-tooltip-text li{
+    margin-left: 0;
+	padding-left: 0;
+}
+
+.PFF-tooltip .PFF-tooltip-text a{
+    color: #00FFFF;
+    cursor: pointer;
+}
+
+
+/* Tooltip arrow */
+.PFF-tooltip .PFF-tooltip-text::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: 100%;
+    margin-top: -10px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent #000 transparent transparent;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.PFF-tooltip:hover .PFF-tooltip-text {
+    visibility: visible;
+    opacity: 1;
+}
+
+.PFF-haunted-text {
+    background-color: #4B0082; 
+}
+
+.PFF-ghost-free-text {
+    background-color: #009bfb;
+}
+
+.PFF-kitchen-text {
+    display: inline-block;
+    font-size: 0.75rem;
+    padding: 5px;
+    border-radius: 20px;
+    color: #FFFFFF;
+    line-height: 0.5rem
+}
+
+
+.PFF-mt-1 {
+    margin-top: 8px;
+}
+
+.PFF-max-content {
+    width: max-content;
+}
+
+.PFF-display-block {
+    display: block;
+}
