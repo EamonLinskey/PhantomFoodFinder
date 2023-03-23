@@ -29,18 +29,7 @@
     "background": {
       "service_worker": "dist/service-worker.js"
     },
-    "permissions": [
-      "activeTab",
-      "scripting",
-      "https://maps.googleapis.com/*",
-      "nativeMessaging"
-    ],
     "host_permissions": [
-      "activeTab",
-      "scripting",
-      "https://maps.googleapis.com/*",
-      "https://*/",
-      "https://*/*",
-      "nativeMessaging"
+      "https://maps.googleapis.com/*"
     ]
   }

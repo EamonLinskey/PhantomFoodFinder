@@ -80,6 +80,10 @@
     background-color: #009bfb;
 }
 
+.PFF-potentially-haunted-text {
+    background-color: #E07400;
+}
+
 .PFF-kitchen-text {
     display: inline-block;
     font-size: 0.75rem;

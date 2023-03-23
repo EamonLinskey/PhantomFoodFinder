@@ -2,36 +2,38 @@ import { Cordinate } from "./content";
 
 const apiKey = '';
 
-const getRestaurantName = async (cordinate: Cordinate): Promise<string[] | null> => {
-    cordinate.latitude, cordinate.longitude
-    //const url = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?fields=name&location=${cordinate.latitude},${cordinate.longitude}&radius=50&type=restaurant|bakery|bar|cafe|convenience_store|establishment|liquor_store|meal_delivery|meal_takeaway|supermarket&key=${apiKey}`;
-    const url = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?fields=name&location=${cordinate.latitude},${cordinate.longitude}&radius=30&key=${apiKey}`;
+const getNearbyRestaurants = async (cordinate: Cordinate): Promise<string[] | null> => {
+    // Number of meters around search point to consider. 
+    // We want to make this as low as we can while still capturing the target. 
+    // I arrived at 15 through trial and error
+    const radius = 15;
+
+    // Request to ger results around our location
+    const url = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?fields=name&location=${cordinate.latitude},${cordinate.longitude}&radius=${radius}&key=${apiKey}`;
     
     const response = await fetch(url);
-    console.log(response)
     const json = await response.json();
-    console.log(json)
 
   
-    if (json && json.results && json.results.length > 0) {
+    if (json?.results && json.results.length > 0) {
       return json.results;
     } else {
       return null;
     }
   };
 
-chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-    if (request.type === 'getRestaurantName') {
-        console.log(request)
-        getRestaurantName(request.cordinate)
-            .then((restaurantName) => {
-                sendResponse({ restaurantName });
-            })
-            .catch((error) => {
-                console.error(`Error retrieving restaurant name: ${error}`);
-                sendResponse({ error: `Error retrieving restaurant name: ${error}` });
-            });
-    }
-    // We must return true in order to communicate that response will be asynchronous
-    return true;
-  });
+chrome.runtime.onMessage.addListener((request, _sender, sendResponse) => {
+  if (request.type === 'getNearbyRestaurants') {
+    getNearbyRestaurants(request.cordinate)
+      .then((restaurants) => {
+          sendResponse({ restaurants });
+      })
+      .catch((error) => {
+        const errorMessage = `Error retrieving restaurant name: ${error}`;
+          console.error(errorMessage);
+          sendResponse({ error: errorMessage });
+      });
+  }
+  // We must return true in order to communicate that response will be asynchronous
+  return true;
+});
