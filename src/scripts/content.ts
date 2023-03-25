@@ -1,6 +1,7 @@
 import { waitForElm } from './helpers';
 import stringSimilarity from 'string-similarity';
 import { commonConjunctionsRegex, firstNumberRegex, insideParensOrBracketsRegex, nonAphaNumericRegex } from './regex';
+import { getCachedRestaurantData, updateRestaurantCache } from './cache';
 
 export type Cordinate = {
     latitude: number
@@ -202,11 +203,24 @@ const compareNames = (restaurantsAtAddress: any[], name: string, address: string
 }
 
 const checkForGhostKitchens = async () => {
-    let { latitude, longitude } = await getLatAndLong()
+    let cordinate = await getLatAndLong()
+    let {latitude, longitude} = cordinate;
+
+    // Leave for now to clear data when testing
+    // await chrome.storage.local.clear();
+
+    const cachedData = await getCachedRestaurantData(cordinate);
+    if(cachedData) { 
+        compareResturanttoResults(cachedData);
+        return;
+    }
+
 
     if (latitude && longitude) {
-        chrome.runtime.sendMessage({ type: 'getNearbyRestaurants', cordinate: {latitude, longitude} }, (response) => {
+        chrome.runtime.sendMessage({ type: 'getNearbyRestaurants', cordinate: {latitude, longitude} }, async (response) => {
             compareResturanttoResults(response)
+            // cache result for later
+            await updateRestaurantCache(cordinate, response);
         });
     }
 }
