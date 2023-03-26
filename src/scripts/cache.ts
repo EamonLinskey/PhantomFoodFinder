@@ -7,6 +7,10 @@ export const getCachedRestaurantData = async (coordinate: Cordinate) => {
 }
 
 export const updateRestaurantCache = async (cordinate: Cordinate, data: any) => {
+    // we want to try the call again later if we are getting no results to double check
+    if(data === null || data.restaurants === null) {
+        return 
+    }
     const restuarantMap = await getOrInitilizeRestaurantMap();
 
     restuarantMap.set(stringifyCoordinate(cordinate), data)

@@ -218,6 +218,11 @@ const checkForGhostKitchens = async () => {
 
     if (latitude && longitude) {
         chrome.runtime.sendMessage({ type: 'getNearbyRestaurants', cordinate: {latitude, longitude} }, async (response) => {
+            if(response.error) {
+                console.error(response.error)
+                return;
+            }
+
             compareResturanttoResults(response)
             // cache result for later
             await updateRestaurantCache(cordinate, response);
