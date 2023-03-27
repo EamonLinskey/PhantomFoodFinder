@@ -1,19 +1,18 @@
-import { Cordinate } from "./content";
+import { ContentScriptRequest, ErrorResponse, GooglePlaceApiResponse, GooglePlaceRestaurant, RestaurantDataResponse, sucessfulCallStatuses } from "./types";
+import { Cordinate } from "./types";
 
-const apiKey = '';
+const apiKey: string = '';
 
-const sucessfulCallStatuses = ["OK", "ZERO_RESULTS"]
-
-const getNearbyRestaurants = async (cordinate: Cordinate): Promise<string[] | null | Error> => {
+const getNearbyRestaurants = async (cordinate: Cordinate): Promise<GooglePlaceRestaurant[] | null> => {
     // Number of meters around search point to consider. 
     // We want to make this as low as we can while still capturing the target. 
-    // I arrived at 15 through trial and error
-    const radius = 15;
+    // I arrived at 20 through trial and error
+    const radius = 20;
 
     // Request to ger results around our location
     const url = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?fields=name&location=${cordinate.latitude},${cordinate.longitude}&radius=${radius}&key=${apiKey}`;
-    
-    const response = await fetch(url);
+
+    const response: Response = await fetch(url);
 
     // Response.ok tells us if we actually hit a valid webpage
     if(!response.ok) {
@@ -22,7 +21,7 @@ const getNearbyRestaurants = async (cordinate: Cordinate): Promise<string[] | nu
       throw new Error(errorText);
     }
 
-    const json = await response.json();
+    const json: GooglePlaceApiResponse = await response.json();
 
     // json.status describes what we found after we hit the API webpage
     if(!sucessfulCallStatuses.includes(json.status)) {
@@ -38,18 +37,19 @@ const getNearbyRestaurants = async (cordinate: Cordinate): Promise<string[] | nu
     }
   };
 
-chrome.runtime.onMessage.addListener((request, _sender, sendResponse) => {
-  if (request.type === 'getNearbyRestaurants') {
-    getNearbyRestaurants(request.cordinate)
-      .then((restaurants) => {
-          sendResponse({ restaurants });
-      })
-      .catch((error) => {
-        const errorMessage = `Error retrieving restaurant name: ${error}`;
+chrome.runtime.onMessage.addListener(
+  (request: ContentScriptRequest, _sender: chrome.runtime.MessageSender, sendResponse: (response?: GooglePlaceRestaurant[] | null | ErrorResponse) => void): boolean => {
+    if (request.type === 'getNearbyRestaurants') {
+      getNearbyRestaurants(request.cordinate)
+        .then((restaurantData: GooglePlaceRestaurant[] | null) => {
+          sendResponse(restaurantData);
+        })
+        .catch((error: Error) => {
+          const errorMessage = `Error retrieving restaurant name: ${error}`;
           console.error(errorMessage);
           sendResponse({ error: errorMessage });
-      });
-  }
-  // We must return true in order to communicate that response will be asynchronous
-  return true;
-});
+        });
+    }
+    // We must return true in order to communicate that response will be asynchronous
+    return true;
+  });

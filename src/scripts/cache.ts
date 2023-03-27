@@ -1,33 +1,33 @@
-import { Cordinate } from "./content";
+import { CachedData, Cordinate, GooglePlaceRestaurant } from "./types";
 
-export const getCachedRestaurantData = async (coordinate: Cordinate) => {
-    const cachedResturantsMap : any = await getOrInitilizeRestaurantMap();
-    
+export const getCachedRestaurantData = async (coordinate: Cordinate): Promise<GooglePlaceRestaurant[] | null> => {
+    const cachedResturantsMap: Map<string, GooglePlaceRestaurant[]> = await getOrInitilizeRestaurantMap();
+
     return cachedResturantsMap.get(stringifyCoordinate(coordinate)) ?? null;
 }
 
-export const updateRestaurantCache = async (cordinate: Cordinate, data: any) => {
+export const updateRestaurantCache = async (cordinate: Cordinate, restaurants: GooglePlaceRestaurant[]): Promise<void> => {
     // we want to try the call again later if we are getting no results to double check
-    if(data === null || data.restaurants === null) {
+    if(restaurants.length === 0) {
         return 
     }
-    const restuarantMap = await getOrInitilizeRestaurantMap();
+    const restaurantMap: Map<string, GooglePlaceRestaurant[]> = await getOrInitilizeRestaurantMap();
 
-    restuarantMap.set(stringifyCoordinate(cordinate), data)
+    restaurantMap.set(stringifyCoordinate(cordinate), restaurants)
 
-    await chrome.storage.local.set({ restaurantData: Object.fromEntries(restuarantMap)});
+    await chrome.storage.local.set({ restaurantData: Object.fromEntries(restaurantMap)});
 }
 
-export const getOrInitilizeRestaurantMap = async() => {
-    const cachedRestaurantMap : any = await chrome.storage.local.get(('restaurantData'));
+export const getOrInitilizeRestaurantMap = async(): Promise<Map<string, GooglePlaceRestaurant[]>> => {
+    const cachedRestaurantMap: CachedData = await chrome.storage.local.get(('restaurantData')) as CachedData;
 
     if(cachedRestaurantMap?.restaurantData) {
-        return new Map(Object.entries(cachedRestaurantMap.restaurantData))
+        // The local cache serializes our map, so we have to turn it back into a map type to access it
+        return new Map<string, GooglePlaceRestaurant[]>(Object.entries(cachedRestaurantMap.restaurantData))
     }
 
     // Create resturant dictionary the first time we access the cache, or after the cache is cleared
-    const newRestaurantMap = new Map();
-   
+    const newRestaurantMap = new Map<string, GooglePlaceRestaurant[]>();
     chrome.storage.local.set({ 'restaurantData': newRestaurantMap });
 
     return newRestaurantMap;

@@ -1,5 +1,6 @@
+// Look for an element on a page if exists or watch until it loads
 export const waitForElm = (selector: string): Promise<Element | null> => {
-    return new Promise(resolve => {
+    return new Promise((resolve: (value: Element | PromiseLike<Element | null> | null) => void) => {
         if (document.querySelector(selector)) {
             return resolve(document.querySelector(selector));
         }

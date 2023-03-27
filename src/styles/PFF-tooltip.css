@@ -7,7 +7,6 @@
     padding-left: 4px;
 }
   
-/* Tooltip text */
 .PFF-tooltip .PFF-tooltip-text {
     visibility: hidden;
     background-color: #000;
@@ -86,13 +85,16 @@
 
 .PFF-kitchen-text {
     display: inline-block;
-    font-size: 0.75rem;
+    font-size: 0.9rem;
     padding: 5px;
     border-radius: 20px;
     color: #FFFFFF;
-    line-height: 0.5rem
+    line-height: 0.9rem !important;
 }
 
+.PFF-kitchen-emoji {
+    font-size: 1.2rem;
+}
 
 .PFF-mt-1 {
     margin-top: 8px;
