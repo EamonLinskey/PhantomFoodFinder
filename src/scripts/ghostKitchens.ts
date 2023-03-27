@@ -57,12 +57,6 @@ const comparePageResturantToCanidates = async (restaurants: GooglePlaceRestauran
         restaurantsNearAddress = streetNumberMatch;
     }
 
-    // If we still don't have any matches we should list the nearby resturants as potential matches
-    if(restaurantsNearAddress.length === 0){
-        //TODO write case for explaing no matches but here are some nearby resturants
-        // Sort by scores still
-    }
-    
     identifyKitchenType(restaurantsNearAddress, data);
 }
 
