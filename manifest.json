@@ -5,13 +5,13 @@
     "version": "1.0",
     "action": {
       "default_popup": "test.html",
-      "default_icon": "src/images/PhantomFoodFinderIcon2.png"
+      "default_icon": "src/images/PhantomFoodFinderIcon3.png"
     },
     "icons": {
-      "16": "src/images/PhantomFoodFinderIcon2.png",
-      "32": "src/images/PhantomFoodFinderIcon2.png",
-      "48": "src/images/PhantomFoodFinderIcon2.png",
-      "128": "src/images/PhantomFoodFinderIcon2.png"
+      "16": "src/images/PhantomFoodFinderIcon3.png",
+      "32": "src/images/PhantomFoodFinderIcon3.png",
+      "48": "src/images/PhantomFoodFinderIcon3.png",
+      "128": "src/images/PhantomFoodFinderIcon3.png"
     },
     "content_scripts": [
       {
