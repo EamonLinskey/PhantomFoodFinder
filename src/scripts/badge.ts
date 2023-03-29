@@ -1,3 +1,4 @@
+import { PFFBadgeId } from "./HTMLelements";
 import { BadgeType, GooglePlaceRestaurant, PageRestaurantData } from "./types";
 
 const badgeMap = new Map (Object.entries({
@@ -64,14 +65,16 @@ export const AddBadgeHTMLtoTarget = (restaurants: GooglePlaceRestaurant[], badge
             <a target='_blank' href='${link}'>
                 this location.
             </a>
-            This may be due to google maps data not being up to date, or the address data being incorrect`;
+            <div>This may be due to google maps data not being up to date</div>
+            <div>or the address data may be incorrect</div>
+            `;
     }
         
 
     // Add badge to page
     elment.innerHTML +=  `
         <span class="PFF-tooltip">
-            <div class="PFF-kitchen-text ${badgeClass}">${badgeText}</div>
+            <div id='${PFFBadgeId}' class="PFF-kitchen-text ${badgeClass}">${badgeText}</div>
             <div  class="PFF-kitchen-emoji">${emoji}</div>
             <span class="PFF-tooltip-text">
                 <span class='PFF-max-content PFF-display-block'> 

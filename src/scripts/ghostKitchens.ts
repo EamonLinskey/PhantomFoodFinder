@@ -1,9 +1,10 @@
-import { waitForElm } from './helpers';
+import { hasPFFBadge, waitForElm } from './HTMLelements';
 import { getCachedRestaurantData, updateRestaurantCache } from './cache';
 import { Cordinate, ErrorResponse, GooglePlaceRestaurant, isErrorResponse, PageRestaurantData } from './types';
 import { getLatAndLong, seeIfStreeNumberMatches } from './addresses';
 import { AddBadgeHTMLtoTarget } from './badge';
 import { scoreRestaurantNameSimilarities } from './restaurantNameScores';
+import { Mutex } from 'async-mutex';
 
 export const identifyKitchenType = (restaurantsAtAddress: GooglePlaceRestaurant[], pageData: PageRestaurantData): void => {
     if(restaurantsAtAddress.length === 0) {
@@ -62,8 +63,13 @@ const comparePageResturantToCanidates = async (restaurants: GooglePlaceRestauran
 
 
 export const checkForGhostKitchens = async (): Promise<void> => {
-    let cordinate: Cordinate | null = await getLatAndLong();
+    // Bail if we have already added badge to the DOM
+    if(hasPFFBadge()) {
+        return;
+    }
     
+    let cordinate: Cordinate | null = await getLatAndLong();
+
     if(cordinate === null) {
         return;
     }
@@ -76,21 +82,44 @@ export const checkForGhostKitchens = async (): Promise<void> => {
     const cachedData = await getCachedRestaurantData(cordinate);
 
     if(cachedData) { 
-        comparePageResturantToCanidates(cachedData);
+        await comparePageResturantToCanidates(cachedData);
         return;
     }
 
 
     if (latitude && longitude) {
-        chrome.runtime.sendMessage({ type: 'getNearbyRestaurants', cordinate: {latitude, longitude} }, async (response: GooglePlaceRestaurant[] | ErrorResponse) => {
-            if(isErrorResponse(response)) {
-                console.error(response.error)
-                return;
-            }
-
-            comparePageResturantToCanidates(response)
-            // cache result for later
-            await updateRestaurantCache(cordinate, response);
+        const response = await new Promise<GooglePlaceRestaurant[] | ErrorResponse>((resolve, reject) => {
+            chrome.runtime.sendMessage( { type: 'getNearbyRestaurants', cordinate: {latitude, longitude} },  
+                (response: GooglePlaceRestaurant[] | ErrorResponse) => {
+                    if(isErrorResponse(response)) {
+                        reject(response.error);
+                    } else {
+                        resolve(response)
+                    }
+                }
+            );
         });
+
+        if(isErrorResponse(response)) {
+            console.error(response.error)
+            return;
+        } else {
+            comparePageResturantToCanidates(response) 
+            updateRestaurantCache(cordinate, response);
+        }
+    }
+}
+
+// We don't want concurrent call of checkForGhostKitchens runnign so we use a mutex to 
+// ensure  that only one instance can run at a time
+const mutex = new Mutex();
+export const executeCheckForGhostKitchens = async (): Promise<void> => {
+    const release = await mutex.acquire();
+    try {
+        await checkForGhostKitchens();
+    } catch (error: unknown) {
+        console.error('An unknow error occured', error)
+    } finally {
+        release();
     }
 }

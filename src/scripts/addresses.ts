@@ -1,4 +1,4 @@
-import { waitForElm } from "./helpers";
+import { waitForElm } from "./HTMLelements";
 import { firstNumberRegex } from "./regex";
 import { Cordinate } from "./types";
 

@@ -6,8 +6,8 @@ const apiKey: string = '';
 const getNearbyRestaurants = async (cordinate: Cordinate): Promise<GooglePlaceRestaurant[] | null> => {
     // Number of meters around search point to consider. 
     // We want to make this as low as we can while still capturing the target. 
-    // I arrived at 20 through trial and error
-    const radius = 20;
+    // I arrived at 50 through trial and error
+    const radius = 50;
 
     // Request to ger results around our location
     const url = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?fields=name&location=${cordinate.latitude},${cordinate.longitude}&radius=${radius}&key=${apiKey}`;
@@ -37,6 +37,8 @@ const getNearbyRestaurants = async (cordinate: Cordinate): Promise<GooglePlaceRe
     }
   };
 
+// Adds a listener that waits for messages from the content_scripts
+// When it recieves a getNearbyRestaurants request we call the API and emit the data 
 chrome.runtime.onMessage.addListener(
   (request: ContentScriptRequest, _sender: chrome.runtime.MessageSender, sendResponse: (response?: GooglePlaceRestaurant[] | null | ErrorResponse) => void): boolean => {
     if (request.type === 'getNearbyRestaurants') {
@@ -53,3 +55,17 @@ chrome.runtime.onMessage.addListener(
     // We must return true in order to communicate that response will be asynchronous
     return true;
   });
+  
+// Add listener that will emit a message whenever the url changes. 
+// This will let use rerun our checks when navigating through multiple pages on a website
+chrome.tabs.onUpdated.addListener(
+  (tabId: number, changeInfo: chrome.tabs.TabChangeInfo) => {
+    if (changeInfo.url) {
+      chrome.tabs.sendMessage( tabId, {
+        message: 'urlUpdated',
+        url: changeInfo.url
+      })
+
+    }
+  }
+);

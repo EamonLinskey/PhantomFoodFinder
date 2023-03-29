@@ -23,7 +23,7 @@ export type PageRestaurantData = {
 
 //https://developers.google.com/maps/documentation/places/web-service/search-nearby#PlacesSearchStatus
 export type PlaceSearchStatus = 'OK' | 'ZERO_RESULTS' | 'OVER_QUERY_LIMIT' | 'REQUEST_DENIED ' | 'UNKNOWN_ERROR ';
-export const sucessfulCallStatuses: PlaceSearchStatus[] = ["OK", "ZERO_RESULTS"]
+export const sucessfulCallStatuses: PlaceSearchStatus[] = ['OK', 'ZERO_RESULTS']
 
 export type GooglePlaceApiResponse = {
     html_attributions: any[];
@@ -56,3 +56,8 @@ export function isErrorResponse(value: unknown): value is ErrorResponse {
 }
 
 export type BadgeType = 'confirmedGhostKitchen' | 'confirmedRealKitchen' | 'unconfirmedKitchen';
+
+export type UrlUpdateResponse = {
+    message: string;
+    url: string;
+};

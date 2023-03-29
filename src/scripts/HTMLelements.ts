@@ -18,3 +18,8 @@ export const waitForElm = (selector: string): Promise<Element | null> => {
         });
     });
 }
+
+export const PFFBadgeId = 'PPF-badge'
+export const hasPFFBadge = () => {
+    return document.querySelector(`#${PFFBadgeId}`) !== null;
+};
