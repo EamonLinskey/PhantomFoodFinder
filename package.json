@@ -1,32 +1,33 @@
 {
-  "name": "phantomfoodfinder",
-  "version": "1.0.0",
-  "description": "An extension to identify ghost kitchens",
-  "main": "index.ts",
-  "scripts": {
-    "build": "webpack --config webpack.config.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/EamonLinskey/PhantomFoodFinder.git"
-  },
-  "author": "Eamon Linskey",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/EamonLinskey/PhantomFoodFinder/issues"
-  },
-  "homepage": "https://github.com/EamonLinskey/PhantomFoodFinder#readme",
-  "devDependencies": {
-    "@types/chrome": "^0.0.224",
-    "@types/string-similarity": "^4.0.0"
-  },
-  "dependencies": {
-    "async-mutex": "^0.4.0",
-    "axios": "^1.3.4",
-    "string-similarity": "^4.0.4",
-    "ts-loader": "^9.4.2",
-    "webpack": "^5.76.2",
-    "webpack-cli": "^5.0.1"
-  },
-  "type": "module"
+	"name": "phantomfoodfinder",
+	"version": "1.0.0",
+	"description": "An extension to identify ghost kitchens",
+	"main": "index.ts",
+	"scripts": {
+		"build": "webpack --config webpack.config.js"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/EamonLinskey/PhantomFoodFinder.git"
+	},
+	"author": "Eamon Linskey",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/EamonLinskey/PhantomFoodFinder/issues"
+	},
+	"homepage": "https://github.com/EamonLinskey/PhantomFoodFinder#readme",
+	"devDependencies": {
+		"@types/chrome": "^0.0.224",
+		"@types/string-similarity": "^4.0.0",
+		"prettier": "2.8.7"
+	},
+	"dependencies": {
+		"async-mutex": "^0.4.0",
+		"axios": "^1.3.4",
+		"string-similarity": "^4.0.4",
+		"ts-loader": "^9.4.2",
+		"webpack": "^5.76.2",
+		"webpack-cli": "^5.0.1"
+	},
+	"type": "module"
 }

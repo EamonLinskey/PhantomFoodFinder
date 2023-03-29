@@ -1,37 +1,32 @@
 {
-    "manifest_version": 3,
-    "name": "Phantom Food Finder",
-    "description": "Identify Ghost Kitchens",
-    "version": "1.0",
-    "action": {
-      "default_icon": "src/images/PhantomFoodFinderIcon3.png"
-    },
-    "icons": {
-      "16": "src/images/PhantomFoodFinderIcon3.png",
-      "32": "src/images/PhantomFoodFinderIcon3.png",
-      "48": "src/images/PhantomFoodFinderIcon3.png",
-      "128": "src/images/PhantomFoodFinderIcon3.png"
-    },
-    "content_scripts": [
-      {
-        "js": ["dist/bundle.js"],
-        "css": ["src/styles/PFF-tooltip.css"],
-        "matches": [
-          "https://www.grubhub.com/*",
-          "https://www.doordash.com/*",
-          "https://postmates.com/*",
-          "https://www.ubereats.com/*"
-        ]
-      }
-    ],
-    "background": {
-      "service_worker": "dist/service-worker.js"
-    },
-    "host_permissions": [
-      "https://maps.googleapis.com/*"
-    ],
-    "permissions": [
-      "storage",
-      "tabs"
-    ]
-  }
+	"manifest_version": 3,
+	"name": "Phantom Food Finder",
+	"description": "Identify Ghost Kitchens",
+	"version": "1.0",
+	"action": {
+		"default_icon": "src/images/PhantomFoodFinderIcon3.png"
+	},
+	"icons": {
+		"16": "src/images/PhantomFoodFinderIcon3.png",
+		"32": "src/images/PhantomFoodFinderIcon3.png",
+		"48": "src/images/PhantomFoodFinderIcon3.png",
+		"128": "src/images/PhantomFoodFinderIcon3.png"
+	},
+	"content_scripts": [
+		{
+			"js": ["dist/bundle.js"],
+			"css": ["src/styles/PFF-tooltip.css"],
+			"matches": [
+				"https://www.grubhub.com/*",
+				"https://www.doordash.com/*",
+				"https://postmates.com/*",
+				"https://www.ubereats.com/*"
+			]
+		}
+	],
+	"background": {
+		"service_worker": "dist/service-worker.js"
+	},
+	"host_permissions": ["https://maps.googleapis.com/*"],
+	"permissions": ["storage", "tabs"]
+}

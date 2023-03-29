@@ -7,4 +7,3 @@ import './main';
 import './regex';
 import './restaurantNameScores';
 import './types';
-
