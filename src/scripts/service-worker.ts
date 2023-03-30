@@ -3,44 +3,24 @@ import {
 	ErrorResponse,
 	GooglePlaceApiResponse,
 	GooglePlaceRestaurant,
-	sucessfulCallStatuses
 } from './types';
 import {Cordinate} from './types';
 
-const apiKey: string = '';
+const getNearbyRestaurants = async (cordinate: Cordinate): Promise<GooglePlaceRestaurant[]> => {
+	// AWS Proxy Server
+	const url = `https://0d7e82esla.execute-api.us-east-2.amazonaws.com/default/PhantomFoodFinderRestaurantLocation`
 
-const getNearbyRestaurants = async (cordinate: Cordinate): Promise<GooglePlaceRestaurant[] | null> => {
-	// Number of meters around search point to consider.
-	// We want to make this as low as we can while still capturing the target.
-	// I arrived at 50 through trial and error
-	const radius = 50;
-
-	// Request to ger results around our location
-	const url = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?fields=name&location=${cordinate.latitude},${cordinate.longitude}&radius=${radius}&key=${apiKey}`;
-
-	const response: Response = await fetch(url);
-
-	// Response.ok tells us if we actually hit a valid webpage
-	if (!response.ok) {
-		const errorText = 'Unable to connect to the google place API';
-		console.error(errorText);
-		throw new Error(errorText);
-	}
+	const response: Response = await fetch(url, {
+		method: 'POST',
+		body: JSON.stringify({
+			latitude: cordinate.latitude,
+			longitude: cordinate.longitude
+		}),
+	});
 
 	const json: GooglePlaceApiResponse = await response.json();
 
-	// json.status describes what we found after we hit the API webpage
-	if (!sucessfulCallStatuses.includes(json.status)) {
-		const errorText = `There was a problem with our request the google place API. Response: "${json.status}"`;
-		console.error(errorText);
-		throw new Error(errorText);
-	}
-
-	if (json?.results && json.results.length > 0) {
-		return json.results;
-	} else {
-		return null;
-	}
+	return json.results;
 };
 
 // Adds a listener that waits for messages from the content_scripts

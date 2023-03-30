@@ -27,6 +27,8 @@
 	"background": {
 		"service_worker": "dist/service-worker.js"
 	},
-	"host_permissions": ["https://maps.googleapis.com/*"],
+	"host_permissions": [
+		"https://0d7e82esla.execute-api.us-east-2.amazonaws.com/default/*"
+	],
 	"permissions": ["storage", "tabs"]
 }
