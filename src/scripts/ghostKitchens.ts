@@ -83,9 +83,6 @@ export const checkForGhostKitchens = async (): Promise<void> => {
 
 	let {latitude, longitude} = coordinate;
 
-	// Leave for now to clear data when testing
-	await chrome.storage.local.clear();
-
 	const cachedData = await getCachedRestaurantData(coordinate);
 
 	if (cachedData) {
