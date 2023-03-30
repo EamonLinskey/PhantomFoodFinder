@@ -4,17 +4,18 @@ import {
 	GooglePlaceApiResponse,
 	GooglePlaceRestaurant,
 } from './types';
-import {Cordinate} from './types';
+import {Coordinate} from './types';
 
-const getNearbyRestaurants = async (cordinate: Cordinate): Promise<GooglePlaceRestaurant[]> => {
+
+const getNearbyRestaurants = async (coordinate: Coordinate): Promise<GooglePlaceRestaurant[]> => {
 	// AWS Proxy Server
 	const url = `https://0d7e82esla.execute-api.us-east-2.amazonaws.com/default/PhantomFoodFinderRestaurantLocation`
 
 	const response: Response = await fetch(url, {
 		method: 'POST',
 		body: JSON.stringify({
-			latitude: cordinate.latitude,
-			longitude: cordinate.longitude
+			latitude: coordinate.latitude,
+			longitude: coordinate.longitude
 		}),
 	});
 
@@ -24,7 +25,7 @@ const getNearbyRestaurants = async (cordinate: Cordinate): Promise<GooglePlaceRe
 };
 
 // Adds a listener that waits for messages from the content_scripts
-// When it recieves a getNearbyRestaurants request we call the API and emit the data
+// When it receives a getNearbyRestaurants request we call the API and emit the data
 chrome.runtime.onMessage.addListener(
 	(
 		request: ContentScriptRequest,
@@ -32,7 +33,7 @@ chrome.runtime.onMessage.addListener(
 		sendResponse: (response?: GooglePlaceRestaurant[] | null | ErrorResponse) => void
 	): boolean => {
 		if (request.type === 'getNearbyRestaurants') {
-			getNearbyRestaurants(request.cordinate)
+			getNearbyRestaurants(request.coordinate)
 				.then((restaurantData: GooglePlaceRestaurant[] | null) => {
 					sendResponse(restaurantData);
 				})

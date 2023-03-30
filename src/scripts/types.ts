@@ -1,4 +1,4 @@
-export type Cordinate = {
+export type Coordinate = {
 	latitude: number;
 	longitude: number;
 };
@@ -11,13 +11,16 @@ export type ErrorResponse = {
 
 export type ContentScriptRequest = {
 	type: ContentScriptFunctionNames;
-	cordinate: Cordinate;
+	coordinate: Coordinate;
 };
 
 export type PageRestaurantData = {
 	name: string;
 	address: {
-		streetAddress: string;
+		streetAddress?: string;
+		addressLocality?: string;
+		addressRegion?: string;
+		postalCode?: string;
 	};
 };
 

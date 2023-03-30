@@ -1,8 +1,8 @@
 import {waitForElm} from './HTMLelements';
 import {firstNumberRegex} from './regex';
-import {Cordinate} from './types';
+import {Coordinate} from './types';
 
-export const getLatAndLong = async (): Promise<Cordinate | null> => {
+export const getLatAndLong = async (): Promise<Coordinate | null> => {
 	const scriptTag: Element | null = await waitForElm('script[type="application/ld+json"]');
 
 	if (!scriptTag || scriptTag.textContent === null) {
@@ -18,7 +18,7 @@ export const getLatAndLong = async (): Promise<Cordinate | null> => {
 	};
 };
 
-export const seeIfStreeNumberMatches = (firstAddress: string, secondAddress: string): boolean => {
+export const seeIfStreetNumberMatches = (firstAddress: string, secondAddress: string): boolean => {
 	const firstStreetNumber = firstAddress.match(firstNumberRegex)?.[0];
 	const secondStreetNumber = secondAddress.match(firstNumberRegex)?.[0];
 

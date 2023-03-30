@@ -29,18 +29,19 @@ export const AddBadgeHTMLtoTarget = (
 	pageData: PageRestaurantData,
 	target: string = 'h1'
 ): void => {
-	const elment: HTMLHeadingElement = document.querySelector(target);
-	if (!elment) {
+	const element: HTMLHeadingElement = document.querySelector(target);
+	if (!element) {
 		return;
 	}
 
 	// Update the style to place badge nicely
-	elment.style.display = 'flex';
-	elment.style.alignItems = 'center';
+	element.style.display = 'flex';
+	element.style.alignItems = 'center';
 
 	const {emoji, badgeClass, badgeText} = badgeMap.get(badgeType);
 
-	const address = restaurants.length > 0 ? restaurants[0].vicinity : pageData.address.streetAddress;
+	const {streetAddress, addressLocality, addressRegion, postalCode} = pageData.address;
+	const address = `${streetAddress ?? ''} ${addressLocality ?? ''} ${addressRegion ?? ''} ${postalCode ?? ''}`
 
 	const link = `https://www.google.com/maps/place/${address}`;
 
@@ -77,7 +78,7 @@ export const AddBadgeHTMLtoTarget = (
 	}
 
 	// Add badge to page
-	elment.innerHTML += `
+	element.innerHTML += `
         <span class="PFF-tooltip">
             <div id='${PFFBadgeId}' class="PFF-kitchen-text ${badgeClass}">${badgeText}</div>
             <div  class="PFF-kitchen-emoji">${emoji}</div>

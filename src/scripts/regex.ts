@@ -1,5 +1,5 @@
 // Matches non-alphanumeric text
-export const nonAphaNumericRegex: RegExp = /[^A-Za-z0-9]/g;
+export const nonAlphaNumericRegex: RegExp = /[^A-Za-z0-9]/g;
 
 // Matches the first number of a string
 export const firstNumberRegex: RegExp = /\d+/;
@@ -11,9 +11,9 @@ export const insideParensOrBracketsRegex: RegExp = /\s*[\[{(<].*?[>)}\]]\s*/g;
 export const commonConjunctionsRegex: RegExp = /(and|or|slash|with|plus|minus)/gi;
 
 // Matches first instance of  "store" or "restaurant" case insensitively
-// The differnt food delivery apps use differnt naems for their restaurant pages
-export const restuarantPageUrlRegex = /(store|restaurant)/i;
+// The different food delivery apps use different names for their restaurant pages
+export const restaurantPageUrlRegex = /(store|restaurant)/i;
 
 export const isUrlRestaurantPage = (url: string) => {
-	return url.match(restuarantPageUrlRegex);
+	return url.match(restaurantPageUrlRegex);
 };

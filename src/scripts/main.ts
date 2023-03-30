@@ -2,8 +2,8 @@ import {executeCheckForGhostKitchens} from './ghostKitchens';
 import {isUrlRestaurantPage} from './regex';
 import {UrlUpdateResponse} from './types';
 
-// On initial page load check for ghost kitchens if we are on a restuarant page
-// We might initilize the extension outside of the resaurant page because the
+// On initial page load check for ghost kitchens if we are on a restaurant page
+// We might initialize the extension outside of the restaurant page because the
 // content_script is not always loaded when navigating within a webpage
 if (isUrlRestaurantPage(window.location.href)) {
 	executeCheckForGhostKitchens();
