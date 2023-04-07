@@ -14,7 +14,7 @@ Phantom Food Finder currently supports the following meal delivery services:
 
 ## Installation
 
-Phantom Food Finder can be installed on Google Chrome from the [Chrome Web Store](https://chrome.google.com/webstore/). 
+Phantom Food Finder can be installed on Google Chrome from the [Chrome Web Store](https://chrome.google.com/webstore/detail/phantom-food-finder/kpeejkehhanjpdbioghgmjdkijioncoo?fbclid=IwAR2fxNPzjbyF32FCtnDzEGuDHeHtitHQHCZ4IGJRGvwmnmIhRUWQrGIgk0k). 
 
 ## Usage
 
